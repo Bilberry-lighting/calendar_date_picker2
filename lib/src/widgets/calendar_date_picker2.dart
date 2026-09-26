@@ -4,11 +4,13 @@
 
 import 'dart:math' as math;
 
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+
+import 'package:material_ui/material_ui.dart';
+
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 part '_impl/_calendar_scroll_view.dart';
 part '_impl/_calendar_view.dart';
@@ -50,8 +52,10 @@ class CalendarDatePicker2 extends StatefulWidget {
     const invalid = false;
 
     if (config.calendarType == CalendarDatePicker2Type.single) {
-      assert(value.length < 2,
-          'Error: single date picker only allows maximum one initial date');
+      assert(
+        value.length < 2,
+        'Error: single date picker only allows maximum one initial date',
+      );
     }
 
     if (config.calendarType == CalendarDatePicker2Type.range &&
@@ -59,8 +63,8 @@ class CalendarDatePicker2 extends StatefulWidget {
       final isRangePickerValueValid = value[0] == null
           ? (value[1] != null ? invalid : valid)
           : (value[1] != null
-              ? (value[1]!.isBefore(value[0]!) ? invalid : valid)
-              : valid);
+                ? (value[1]!.isBefore(value[0]!) ? invalid : valid)
+                : valid);
 
       assert(
         isRangePickerValueValid,
@@ -103,7 +107,8 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
   void initState() {
     super.initState();
     final config = widget.config;
-    final initialDate = widget.displayedMonthDate ??
+    final initialDate =
+        widget.displayedMonthDate ??
         (widget.value.isNotEmpty && widget.value[0] != null
             ? DateTime(widget.value[0]!.year, widget.value[0]!.month)
             : DateUtils.dateOnly(DateTime.now()));
@@ -179,8 +184,8 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
               _mode == CalendarDatePicker2Mode.day
                   ? _localizations.formatMonthYear(date)
                   : _mode == CalendarDatePicker2Mode.month
-                      ? _localizations.formatMonthYear(date)
-                      : _localizations.formatYear(date),
+                  ? _localizations.formatMonthYear(date)
+                  : _localizations.formatYear(date),
               _textDirection,
             );
           }
@@ -207,13 +212,14 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
       }
 
       if (fromYearPicker) {
-        final selectedDatesInThisYear = _selectedDates
-            .where((d) => d?.year == date.year)
-            .toList()
-          ..sort((d1, d2) => d1!.compareTo(d2!));
+        final selectedDatesInThisYear =
+            _selectedDates.where((d) => d?.year == date.year).toList()
+              ..sort((d1, d2) => d1!.compareTo(d2!));
         if (selectedDatesInThisYear.isNotEmpty) {
-          newDisplayedMonthDate =
-              DateTime(date.year, selectedDatesInThisYear[0]!.month);
+          newDisplayedMonthDate = DateTime(
+            date.year,
+            selectedDatesInThisYear[0]!.month,
+          );
         }
       }
 
@@ -264,8 +270,9 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
           break;
 
         case CalendarDatePicker2Type.multi:
-          final index =
-              selectedDates.indexWhere((d) => DateUtils.isSameDay(d, value));
+          final index = selectedDates.indexWhere(
+            (d) => DateUtils.isSameDay(d, value),
+          );
           if (index != -1) {
             selectedDates.removeAt(index);
           } else {
@@ -281,8 +288,9 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
 
           final isRangeSet =
               selectedDates.length > 1 && selectedDates[1] != null;
-          final isSelectedDayBeforeStartDate =
-              value.isBefore(selectedDates[0]!);
+          final isSelectedDayBeforeStartDate = value.isBefore(
+            selectedDates[0]!,
+          );
 
           if (isRangeSet) {
             selectedDates = [value, null];
@@ -302,12 +310,15 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
 
       final isValueDifferent =
           widget.config.calendarType != CalendarDatePicker2Type.single ||
-              !DateUtils.isSameDay(selectedDates[0],
-                  _selectedDates.isNotEmpty ? _selectedDates[0] : null);
+          !DateUtils.isSameDay(
+            selectedDates[0],
+            _selectedDates.isNotEmpty ? _selectedDates[0] : null,
+          );
       if (isValueDifferent || widget.config.allowSameValueSelection == true) {
         _selectedDates = [...selectedDates];
-        widget.onValueChanged
-            ?.call(_selectedDates.whereType<DateTime>().toList());
+        widget.onValueChanged?.call(
+          _selectedDates.whereType<DateTime>().toList(),
+        );
       }
     });
   }
@@ -326,7 +337,8 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
       case CalendarDatePicker2Mode.month:
         return Padding(
           padding: EdgeInsets.only(
-              top: widget.config.controlsHeight ?? _subHeaderHeight),
+            top: widget.config.controlsHeight ?? _subHeaderHeight,
+          ),
           child: _MonthPicker(
             config: widget.config,
             key: _monthPickerKey,
@@ -338,7 +350,8 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
       case CalendarDatePicker2Mode.year:
         return Padding(
           padding: EdgeInsets.only(
-              top: widget.config.controlsHeight ?? _subHeaderHeight),
+            top: widget.config.controlsHeight ?? _subHeaderHeight,
+          ),
           child: YearPicker(
             config: widget.config,
             key: _yearPickerKey,
@@ -385,7 +398,8 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
         : Stack(
             children: <Widget>[
               SizedBox(
-                height: (widget.config.controlsHeight ?? _subHeaderHeight) +
+                height:
+                    (widget.config.controlsHeight ?? _subHeaderHeight) +
                     maxContentHeight,
                 child: _buildPicker(),
               ),
