@@ -1,7 +1,8 @@
 import 'dart:math';
 
+import 'package:material_ui/material_ui.dart';
+
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:flutter/material.dart';
 
 /// Display CalendarDatePicker with action buttons
 Future<List<DateTime?>?> showCalendarDatePicker2Dialog({
@@ -39,10 +40,12 @@ Future<List<DateTime?>?> showCalendarDatePicker2Dialog({
             value: value,
             config: config.copyWith(
               openedFromDialog: true,
-              scrollViewConstraints: config.scrollViewConstraints ??
+              scrollViewConstraints:
+                  config.scrollViewConstraints ??
                   (config.calendarViewMode == CalendarDatePicker2Mode.scroll
                       ? BoxConstraints(
-                          maxHeight: dialogHeight.toDouble() - 24 * 2)
+                          maxHeight: dialogHeight.toDouble() - 24 * 2,
+                        )
                       : null),
             ),
           ),

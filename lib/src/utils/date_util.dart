@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Get the number of days offset for the first day in a month.
 int getMonthFirstDayOffset(int year, int month, int firstDayOfWeekIndex) {
@@ -43,8 +43,11 @@ DateFormat getLocaleFullMonthFormat(Locale locale) {
 
 /// Get the number of rows required to display all days in a month.
 int getDayRowsCount(int year, int month, int firstDayOfWeekIndex) {
-  final int monthFirstDayOffset =
-      getMonthFirstDayOffset(year, month, firstDayOfWeekIndex);
+  final int monthFirstDayOffset = getMonthFirstDayOffset(
+    year,
+    month,
+    firstDayOfWeekIndex,
+  );
   final int totalDays = DateUtils.getDaysInMonth(year, month);
   final int remainingDays = totalDays - (7 - monthFirstDayOffset);
   return (remainingDays / 7).ceil() + 1;
